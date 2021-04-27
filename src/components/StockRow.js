@@ -1,18 +1,34 @@
 import React, {Component, useCallback} from 'react';
 import { stock } from '../resources/stock.js';
 
+const changeStyle = {
+    color: '#4caf50',
+    fontSize: '0.8rem',
+    marginLeft: 5
+}
+
 class StockRow extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
+            price: null,
+            date: null,
+            time: null,
+            dollar_change: null,
+            percent_change: null
         }
     }
 
     applyData(data) {
+        console.log(data)
         this.setState({
-            data: data
+            price: data.price,
+            date: data.date,
+            time: data.time,
+        });
+        stock.getYesterdaysClose(this.props.ticker, data.date, (data) => {
+            console.log(data)
         })
     }
 
@@ -22,12 +38,13 @@ class StockRow extends Component {
 
     render() {
         return (
-            <tr>
-                <td>{this.props.ticker}</td>
-                <td>{this.state.data.price}</td>
-                <td>{this.state.data.date}</td>
-                <td>{this.state.data.time}</td>
-            </tr>
+            <li className="list-group-item">
+                <b>{this.props.ticker}</b> ${this.state.price}
+                <span className="change" style={changeStyle}>
+                    {this.state.dollar_change}
+                    {this.state.percent_change}
+                </span>
+            </li>
         );
     }
 }
