@@ -28,6 +28,6 @@ export const stock = {
     },
 
     yesterdaysCloseUrl: (ticker) => {
-        return `${iex.base_url}stock/${ticker}/intraday-prices?chartLast=1&exactDate=20210426token=${iex.api_token}`
+        return `${iex.base_url}stock/${ticker}/intraday-prices?chartLast=1&exactDate=20210426&token=${iex.api_token}`
     },
 }
