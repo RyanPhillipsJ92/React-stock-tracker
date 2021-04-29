@@ -21,13 +21,29 @@ export const stock = {
     return formattedData;
     },
 
-    getYesterdaysClose: (ticker, date, callback) => {
-        fetch(stock.yesterdaysCloseUrl(ticker))
+    getYesterdaysClose: (ticker, lastTradingDate, callback) => {
+        if (lastTradingDate != "" && lastTradingDate != undefined){
+            console.log('here')
+        const url = stock.yesterdaysCloseUrl(ticker, stock.formatDate(lastTradingDate))
+        fetch(url)
             .then((response) => response.json())
             .then((data) =>  callback(stock.formatPriceData(data)))
+        }
+        // })
     },
 
-    yesterdaysCloseUrl: (ticker) => {
-        return `${iex.base_url}stock/${ticker}/intraday-prices?chartLast=1&exactDate=20210426&token=${iex.api_token}`
+        getLastTradingDate: () => {
+            const today = new Date().toISOString().split('T')[0].replace(/-/g, '')
+            const url = `${iex.base_url}ref-data/us/dates/trade/last/1/${today}?token=${iex.api_token}`
+            return fetch(url).then((res) => res.json());
+        },
+
+    yesterdaysCloseUrl: (ticker, lastTradingDate) => {
+        return `${iex.base_url}stock/${ticker}/intraday-prices?chartLast=1&exactDate=${lastTradingDate}&token=${iex.api_token}`
     },
+
+
+    formatDate: (date) => {
+       return new Date().toISOString().split('T')[0].replace(/-/g, '')
+    }
 }
