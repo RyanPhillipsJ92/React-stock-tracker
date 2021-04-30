@@ -44,7 +44,6 @@ class StockRow extends Component {
                 const dollar_change = (this.state.price - yesterday.price).toFixed(3)
                 const percent_change = (100 * dollar_change / yesterday.price).toFixed(2)
                 this.setState({
-
                     //PRICE is a bad name change it to close for yesterday
                     dollar_change: `${dollar_change}`,
                     percent_change: `${percent_change}`

@@ -1,9 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 import StockList from './components/StockList.js';
-
 
 
 function App() {

@@ -23,7 +23,6 @@ export const stock = {
 
     getYesterdaysClose: (ticker, lastTradingDate, callback) => {
         if (lastTradingDate != "" && lastTradingDate != undefined){
-            console.log('here')
         const url = stock.yesterdaysCloseUrl(ticker, stock.formatDate(lastTradingDate))
         fetch(url)
             .then((response) => response.json())
