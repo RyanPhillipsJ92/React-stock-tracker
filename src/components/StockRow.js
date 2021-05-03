@@ -1,4 +1,4 @@
-import React, {Component, useCallback} from 'react';
+import React, {Component} from 'react';
 import { stock } from '../resources/stock.js';
 
 
@@ -24,7 +24,7 @@ class StockRow extends Component {
     }
 
     applyData(data) {
-        const formattedPrice = (data.price == undefined) ? null : data.price.toFixed(2)
+        const formattedPrice = (data.price === undefined) ? null : data.price.toFixed(2)
         // console.log(data)
         this.setState({
             price: formattedPrice,
@@ -38,21 +38,31 @@ class StockRow extends Component {
         stock.latestPrice(this.props.ticker, this.applyData.bind(this))
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.lastTradingDate == null) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.setCanRetrieveClose(prevProps)
+
+        if (this.state.canRetrieveClose && this.state.price !== null) {
             stock.getYesterdaysClose(this.props.ticker, this.props.lastTradingDate, (yesterday) => {
-                const dollar_change = (this.state.price - yesterday.price).toFixed(3)
+
+                const dollar_change = (this.state.price - yesterday.price).toFixed(2)
                 const percent_change = (100 * dollar_change / yesterday.price).toFixed(2)
+
                 this.setState({
                     //PRICE is a bad name change it to close for yesterday
                     dollar_change: `${dollar_change}`,
-                    percent_change: `${percent_change}`
-
+                    percent_change: `${percent_change}`,
+                    canRetrieveClose: false
                 })
             })
         }
     }
-
+    setCanRetrieveClose(prevProps){
+        if (prevProps.lastTradingDate === null && this.props.lastTradingDate !== null) {
+            this.setState({
+                canRetrieveClose: true
+            })
+        }
+    }
     render() {
         return (
             <li className="list-group-item">

@@ -1,4 +1,4 @@
-import React, {Component, useCallback} from 'react';
+import React, {Component} from 'react';
 import StockRow from './StockRow';
 import {stock} from "../resources/stock";
 
