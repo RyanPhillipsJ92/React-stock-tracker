@@ -13,6 +13,7 @@ class StockList extends Component {
 
     componentDidMount() {
         stock.getLastTradingDate().then((data) => {
+            console.log('THIS IS SETTING LAST TRADING DATE     ' + data[0].date)
             this.setState({
                 lastTradingDate: data[0].date
             })

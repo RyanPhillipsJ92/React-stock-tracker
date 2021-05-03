@@ -34,15 +34,18 @@ export const stock = {
         getLastTradingDate: () => {
             const today = new Date().toISOString().split('T')[0].replace(/-/g, '')
             const url = `${iex.base_url}ref-data/us/dates/trade/last/1/${today}?token=${iex.api_token}`
+            console.log(url)
             return fetch(url).then((res) => res.json());
         },
 
     yesterdaysCloseUrl: (ticker, lastTradingDate) => {
+        console.log('last trading date in stock.js   :    ' + lastTradingDate)
+
         return `${iex.base_url}stock/${ticker}/intraday-prices?chartLast=1&exactDate=${lastTradingDate}&token=${iex.api_token}`
     },
 
 
     formatDate: (date) => {
-       return new Date().toISOString().split('T')[0].replace(/-/g, '')
+       return date.replace(/-/g, '')
     }
 }

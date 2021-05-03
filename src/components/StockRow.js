@@ -24,8 +24,7 @@ class StockRow extends Component {
     }
 
     applyData(data) {
-        const formattedPrice = (data.price === undefined) ? null : data.price.toFixed(2)
-        // console.log(data)
+        const formattedPrice = (data.price === undefined) ? null : data.price
         this.setState({
             price: formattedPrice,
             date: data.date,
@@ -41,9 +40,12 @@ class StockRow extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.setCanRetrieveClose(prevProps)
 
-        if (this.state.canRetrieveClose && this.state.price !== null) {
-            stock.getYesterdaysClose(this.props.ticker, this.props.lastTradingDate, (yesterday) => {
+        if (this.state.canRetrieveClose && this.state.price != null) {
 
+            stock.getYesterdaysClose(this.props.ticker, this.props.lastTradingDate, (yesterday) => {
+                console.log(yesterday)
+                // console.log(this.props.ticker, this.state.canRetrieveClose, this.state.price)
+                // console.log(this.props.ticker, this.state.price, yesterday.price)
                 const dollar_change = (this.state.price - yesterday.price).toFixed(2)
                 const percent_change = (100 * dollar_change / yesterday.price).toFixed(2)
 
